@@ -8,7 +8,7 @@ German electric meters (and maybe others too)  provide an infrared interface tha
 The protocol used for this is SML.
 
 ## Hardware
-The device is based on an ESP32 with a infrared reading unit that is connected to a serial interface. 
+The device is based on an ESP32 with an infrared reading unit that is connected to a serial interface. 
 The connection to the home network is established via the ESP32 integrated WIFI interface.
 An OLED display is connected as well to display WIFI status, power consumption or debug information.
 
