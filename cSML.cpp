@@ -160,11 +160,11 @@ void cSML::showMeterData(bool dispOn)
   if(dispOn)
   {
     display.setCursor(0,0);
-    display.printf("ID: %s\n" , _meterID);
-    display.printf("  kWh: %.4f\n" , _kwh);
-    display.printf(" Watt: %.1f\n", _power);
-    display.printf("  Rcv: %i\n", _countProt);
-    display.printf(" Calc: %i\n", _countCalc);
+    display.printf("  ID: %s\n" , _meterID);
+    display.printf(" kWh: %.4f\n" , _kwh);
+    display.printf("Watt: %.1f\n", _power);
+    display.printf(" Rcv: %i\n", _countProt);
+    display.printf("Calc: %i\n", _countCalc);
   }
   display.display();  
 }
