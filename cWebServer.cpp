@@ -35,8 +35,6 @@ void cWebServer::handleRawData()
   char temp[2048];
    int idx = 0;
    
- // the content of the HTTP response follows the header:
-//  snprintf(temp, sizeof(temp), "SML protocol:<br>");
   int len = 0;
   temp[0] = 0;
   for(int j = 0; j < 0x20; j++)
