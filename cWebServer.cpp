@@ -1,5 +1,6 @@
 #include "cWebServer.h"
 cWebServer* cWebServer::_this = nullptr;
+char temp[70000];
 
 
 cWebServer::cWebServer(int port)
@@ -24,6 +25,7 @@ void cWebServer::init(cSML* sml)
     _server.on("/raw", handleRawData);
     _server.on("/pretty", handleDecoded);
     _server.on("/csv", handleCsv);
+    _server.on("/log", handleLog);
     _server.onNotFound(handleNotFound);
     _server.begin();
     _started = true;
@@ -32,7 +34,7 @@ void cWebServer::init(cSML* sml)
 
 void cWebServer::handleRawData() 
 {
-  char temp[2048];
+//  char temp[2048];
    int idx = 0;
    
   int len = 0;
@@ -72,7 +74,7 @@ void cWebServer::handleRawData()
 
 void cWebServer::handleDecoded() 
 {
-  char temp[512];
+//  char temp[512];
   snprintf(temp, sizeof(temp),
   "<html>"
   HEAD_STR
@@ -93,10 +95,27 @@ void cWebServer::handleDecoded()
 
 void cWebServer::handleCsv() 
 {
-  char temp[512];
+//  char temp[512];
   snprintf(temp, sizeof(temp),"%.4f,%.1f,%i,%i\n",
     _this->_sml->getKwh(), _this->_sml->getPower(),
     _this->_sml->getRcvCount(), _this->_sml->getCalcCount());    
+  _this->_server.send(200, "text/html",temp);
+}
+
+
+void cWebServer::handleLog() 
+{
+  int max = _this->_sml->getLogIndex();
+  snprintf(temp, sizeof(temp),"energy [kWh]; time[s]<br>\n");
+  int start = strlen(temp);
+  snprintf(&temp[start], sizeof(temp) - start,"log entries; %i<br>\n", max);
+  start = strlen(temp);
+  for(int i = 0; i < max; i++)
+  {
+    snprintf(&temp[start], sizeof(temp) - start,"%.4f;%i<br>\n",
+    _this->_sml->getLogkWh(i), _this->_sml->getLogTime(i));    
+    start = strlen(temp);
+  }
   _this->_server.send(200, "text/html",temp);
 }
 
@@ -116,7 +135,8 @@ void cWebServer::handleRoot()
     <p>Uptime: %02d:%02d:%02d</p>\
     <p><a href=\"/pretty\">Meter Data</a><br> \
        <a href=\"/raw\">Raw Protol Data</a><br>\
-       <a href=\"/csv\">Csv Data</a> (comma deselected decoded values)</p>\
+       <a href=\"/csv\">Csv Data</a> (comma deselected decoded values)<br>\
+       <a href=\"/log\">Csv Log Data</a> (comma deselected log)</p>\
   </body>\
 </html>",
 

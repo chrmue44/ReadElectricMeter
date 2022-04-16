@@ -20,6 +20,7 @@ class cWebServer
     static void handleRawData();
     static void handleDecoded();
     static void handleCsv();
+    static void handleLog(); 
     static void handleNotFound();
     
     

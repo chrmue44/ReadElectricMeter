@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#define BUF_LEN (24*60)
+
 /*
  * receive and decode SML protocol
  */
@@ -23,6 +25,11 @@ class cSML
     float getIntegrationTime() { return _integrationTime; }
     int getRcvCount() { return _countProt; }
     int getCalcCount() { return _countCalc; }
+    int getLogIndex() { return _logIndex; }
+    int getLogTime(int i) { return _logTime[i]; }
+    float getLogkWh(int i) { return _logkwh[i]; }
+    
+    
   private:
     bool checkHeader();
     int searchPattern(const char* pattern, int len, const char* buf, int bufLen);
@@ -43,6 +50,9 @@ class cSML
     float _power;            // calculated power [W]
     float _deltaWh;          // amount of Wh since last calculation
     float _integrationTime;  // integration time interval of last calculation
+    long _logTime[BUF_LEN];  // time of log
+    float _logkwh[BUF_LEN];  // log of kwh
+    int _logIndex = 0;       // index of log
 };
 
 #endif //#ifndef C_SML

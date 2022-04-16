@@ -107,6 +107,12 @@ void cSML::parseData()
       _kwhLast = _kwh;
       _tickLast = _tick;
       _countCalc++;
+      if(_logIndex < BUF_LEN)
+      {
+        _logTime[_logIndex] = _tick / 1000;
+        _logkwh[_logIndex] = _kwh;
+        _logIndex++;
+      }
     }
   }
 }
@@ -165,6 +171,7 @@ void cSML::showMeterData(bool dispOn)
     display.printf("Watt: %.1f\n", _power);
     display.printf(" Rcv: %i\n", _countProt);
     display.printf("Calc: %i\n", _countCalc);
+    display.printf("Logi: %i\n", _logIndex);
   }
   display.display();  
 }
